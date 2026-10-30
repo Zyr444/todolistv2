@@ -1,16 +1,23 @@
-import React, { useCallback } from 'react';
-import Particles from '@tsparticles/react';
+import React, { useEffect, useState } from 'react';
+import Particles, { initParticlesEngine } from '@tsparticles/react';
 import { loadSlim } from '@tsparticles/slim';
 
 export default function ParticlesBackground() {
-  const particlesInit = useCallback(async (engine) => {
-    await loadSlim(engine);
+  const [init, setInit] = useState(false);
+
+  useEffect(() => {
+    initParticlesEngine(async (engine) => {
+      await loadSlim(engine);
+    }).then(() => {
+      setInit(true);
+    });
   }, []);
+
+  if (!init) return null;
 
   return (
     <Particles
       id="tsparticles"
-      init={particlesInit}
       className="fixed inset-0 -z-10"
       options={{
         background: { color: { value: 'transparent' } },
@@ -21,42 +28,41 @@ export default function ParticlesBackground() {
             resize: true,
           },
           modes: {
-            grab: { distance: 120, links: { opacity: 0.3 } },
+            grab: { distance: 140, links: { opacity: 0.35 } },
           },
         },
         particles: {
-          color: { value: '#7c9cbf' },
+          color: { value: '#6b8db5' },
           links: {
-            color: '#4a6fa5',
-            distance: 130,
+            color: '#3e6a9e',
+            distance: 150,
             enable: true,
-            opacity: 0.18,
-            width: 0.8,
+            opacity: 0.15,
+            width: 0.7,
           },
-          collisions: { enable: false },
           move: {
             direction: 'none',
             enable: true,
             outModes: { default: 'bounce' },
             random: true,
-            speed: 0.4,
+            speed: 0.35,
             straight: false,
           },
           number: {
-            density: { enable: true, area: 900 },
-            value: 70,
+            density: { enable: true, area: 800 },
+            value: 80,
           },
           opacity: {
-            value: { min: 0.15, max: 0.4 },
+            value: { min: 0.1, max: 0.45 },
             animation: {
               enable: true,
-              speed: 0.6,
-              minimumValue: 0.1,
+              speed: 0.5,
+              minimumValue: 0.08,
             },
           },
           shape: { type: 'circle' },
           size: {
-            value: { min: 1, max: 2.5 },
+            value: { min: 0.8, max: 2.2 },
           },
         },
         detectRetina: true,
